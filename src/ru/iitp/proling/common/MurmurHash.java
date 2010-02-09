@@ -1,4 +1,4 @@
-package ie.ucd.murmur;
+package ru.iitp.proling.common;
 
 
 /** Murmur hash 2.0.
