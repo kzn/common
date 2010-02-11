@@ -33,5 +33,15 @@ public class HashUtils {
 		 return seed ^ (hash + 0x9e3779b9 + (seed<< 6) + (seed>>>2));
 		
 	}
+	
+	/**
+	 * Hash combine in several java examples
+	 * @param seed initial seed
+	 * @param hash 
+	 * @return combined hash value
+	 */
+	public static int hashCombineJava(int seed, int hash){
+		return seed * 31 + hash;
+	}
 
 }
