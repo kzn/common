@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Fast mapper between Object <-> int.  
+ * Fast mapper between Object <-> int. Is an enhanced HashSet  
  * @author ant
  *
  */
@@ -93,6 +93,15 @@ public class Alphabet<T> implements Serializable{
 		
 		
 		return sb.toString();
+	}
+	
+	
+	/**
+	 * Check if object is in the alphabet
+	 * @param object object to check
+	 */
+	public boolean contains(T object){
+		return map.contains(object);
 	}
 
 }
