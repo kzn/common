@@ -22,7 +22,7 @@ public class Alphabet<T> implements Serializable{
 	 * @param capacity initial capacity of Alphabet object
 	 * @param emptyObject default(empty) object in the Alphabet
 	 */
-	public Alphabet(int capacity, T emptyObject){
+	public Alphabet(int capacity, final T emptyObject){
 		map = new TObjectIntHashMap<T>();
 		entries =  new ArrayList<T>();	
 		entries.add(emptyObject);
@@ -43,7 +43,7 @@ public class Alphabet<T> implements Serializable{
 	 * @param add if true adds object to alphabet if missing
 	 * @return index of object, or -1 if not found
 	 */
-	public int get(T object, boolean add){
+	public int get(final T object, boolean add){
 		if(object == null)
 			throw new IllegalArgumentException ("Can't lookup \"null\" in an Alphabet.");
 		
@@ -65,7 +65,7 @@ public class Alphabet<T> implements Serializable{
 	 * @param object
 	 * @return index of object
 	 */
-	public int get(T object){
+	public int get(final T object){
 		return get(object, true);
 	}
 	
