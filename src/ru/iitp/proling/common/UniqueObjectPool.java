@@ -10,14 +10,14 @@ import java.util.HashMap;
  * @param <T>
  */
 public class UniqueObjectPool<T> {
-	HashMap<T,T> internalMap;
+	HashMap<T,T> internalMap = new HashMap<T, T>();
 	
 	/**
 	 * Gets (and adds if absent) object from hash set
 	 * @param object query object
 	 * @return unique object 
 	 */
-	public T addget(T object){
+	public T addget(final T object){
 		if(internalMap.containsKey(object))
 			return internalMap.get(object);
 		
@@ -30,7 +30,7 @@ public class UniqueObjectPool<T> {
 	 * @param object
 	 * @return true on successful adding, false if object already exists
 	 */
-	public boolean add(T object){
+	public boolean add(final T object){
 		if(internalMap.containsKey(object))
 			return false;
 		internalMap.put(object, object);
@@ -41,7 +41,7 @@ public class UniqueObjectPool<T> {
 	 * Check if hash set contains object
 	 * @param object 
 	 */
-	public boolean contains(T object){
+	public boolean contains(final T object){
 		return internalMap.containsKey(object);
 	}
 
