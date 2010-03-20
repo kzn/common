@@ -2,6 +2,10 @@ package ru.iitp.proling.common;
 
 import gnu.trove.TObjectHashingStrategy;
 import gnu.trove.TObjectIntHashMap;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -12,11 +16,15 @@ import java.util.ArrayList;
  */
 public class Alphabet<T> implements Serializable{
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2474726474895920764L;
+	/**
 	 * Current version of alphabet class
 	 */
-	private static final long serialVersionUID = 1L;
-	protected final TObjectIntHashMap<T> map;
-	protected final ArrayList<T> entries;
+	
+	protected TObjectIntHashMap<T> map;
+	protected ArrayList<T> entries;
 	
 	/**
 	 * Create empty Alphabet object 
@@ -120,6 +128,22 @@ public class Alphabet<T> implements Serializable{
 	 */
 	public boolean contains(T object){
 		return map.contains(object);
+	}
+	
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException{
+		oos.writeObject(entries);
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException{
+		entries = (ArrayList<T>)ois.readObject();
+		map = new TObjectIntHashMap<T>(entries.size());
+		int i = 0;
+		for(T entry : entries){
+			map.put(entry, i++);
+		}
 	}
 
 }
