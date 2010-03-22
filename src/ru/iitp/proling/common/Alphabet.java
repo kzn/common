@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fast mapper between Object <-> int. Is an enhanced HashSet  
@@ -144,6 +145,13 @@ public class Alphabet<T> implements Serializable{
 		for(T entry : entries){
 			map.put(entry, i++);
 		}
+	}
+	/**
+	 * Return entry list
+	 * @return
+	 */
+	public List<T> entries(){
+		return entries;
 	}
 
 }
