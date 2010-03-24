@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Fast mapper between Object <-> int. Is an enhanced HashSet  
+ * Fast mapper between Object <-> int. Is an enhanced HashSet.
+ * elements indexes starts from 1, all values, less from 1 means invalid'  
  * @author ant
  *
  */
@@ -26,17 +27,6 @@ public class Alphabet<T> implements Serializable{
 	
 	protected TObjectIntHashMap<T> map;
 	protected ArrayList<T> entries;
-	
-	/**
-	 * Create empty Alphabet object 
-	 * @param capacity initial capacity of Alphabet object
-	 * @param zeroObject default(empty) object in the Alphabet
-	 */
-	public Alphabet(final T zeroObject){
-		this();
-		entries.add(zeroObject);
-		map.put(zeroObject, 0);
-	}
 	
 	/**
 	 * Create default alphabet
@@ -61,7 +51,7 @@ public class Alphabet<T> implements Serializable{
 	 * @return object at index in the alphabet
 	 */
 	public T get(int i){
-		return entries.get(i);
+		return entries.get(i - 1);
 	}
 	
 	/**
@@ -74,17 +64,18 @@ public class Alphabet<T> implements Serializable{
 		if(object == null)
 			throw new IllegalArgumentException ("Can't lookup \"null\" in an Alphabet.");
 		
-		int retIndex = -1;
-		if(map.containsKey(object)) {
-				retIndex = map.get(object);
-			}
-		else if (add) {
-			retIndex = entries.size();
+		int retIndex = map.get(object);
+		if(retIndex > 0)
+			return retIndex;
+		
+		
+		if(add){
+			retIndex = entries.size() + 1;
 			map.put(object, retIndex);
 			entries.add(object);
 		}
 		
-		return retIndex;
+		return retIndex > 0? retIndex : -1;
 	}
 	
 	/**
@@ -110,7 +101,7 @@ public class Alphabet<T> implements Serializable{
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		sb.append("Alphabet:\n");
-		int i = 0;
+		int i = 1;
 		for(T entry : entries){
 			sb.append(entry.toString());
 			sb.append(" <=> ");

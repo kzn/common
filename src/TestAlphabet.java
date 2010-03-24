@@ -12,7 +12,7 @@ import ru.iitp.proling.common.Alphabet;
 public class TestAlphabet {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
-		Alphabet<String> towrite = new Alphabet<String>("");
+		Alphabet<String> towrite = new Alphabet<String>();
 		
 		towrite.get("a");
 		towrite.get("b");
@@ -31,6 +31,7 @@ public class TestAlphabet {
 		toRead = (Alphabet<String>)ois.readObject();
 		
 		assert toRead.get(1).equals("a");
+		System.out.println(toRead);
 
 	}
 
