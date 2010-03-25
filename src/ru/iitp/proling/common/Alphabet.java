@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Fast mapper between Object <-> int. Is an enhanced HashSet.
- * elements indexes starts from 1, all values, less from 1 means invalid'  
+ * Indexing starts from 0.   
  * @author ant
  *
  */
@@ -25,8 +25,9 @@ public class Alphabet<T> implements Serializable{
 	 * Current version of alphabet class
 	 */
 	
-	protected TObjectIntHashMap<T> map;
-	protected ArrayList<T> entries;
+	TObjectIntHashMap<T> map;
+	ArrayList<T> entries;
+	boolean readOnly = false;
 	
 	/**
 	 * Create default alphabet
@@ -51,7 +52,7 @@ public class Alphabet<T> implements Serializable{
 	 * @return object at index in the alphabet
 	 */
 	public T get(int i){
-		return entries.get(i - 1);
+		return entries.get(i);
 	}
 	
 	/**
@@ -65,17 +66,18 @@ public class Alphabet<T> implements Serializable{
 			throw new IllegalArgumentException ("Can't lookup \"null\" in an Alphabet.");
 		
 		int retIndex = map.get(object);
-		if(retIndex > 0)
+		
+		if(retIndex != 0 || map.containsKey(object))
 			return retIndex;
 		
-		
 		if(add){
-			retIndex = entries.size() + 1;
+			retIndex = entries.size();
 			map.put(object, retIndex);
 			entries.add(object);
+			return retIndex;
 		}
 		
-		return retIndex > 0? retIndex : -1;
+		return -1;
 	}
 	
 	/**
@@ -143,6 +145,18 @@ public class Alphabet<T> implements Serializable{
 	 */
 	public List<T> entries(){
 		return entries;
+	}
+	
+	public T entry(int index){
+		return entries.get(index);
+	}
+	
+	public int id(final T object){
+		return get(object, !readOnly);
+	}
+	
+	public void setReadOnly(){
+		readOnly = true;
 	}
 
 }
