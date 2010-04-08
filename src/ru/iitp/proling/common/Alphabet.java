@@ -3,6 +3,9 @@ package ru.iitp.proling.common;
 import gnu.trove.TObjectHashingStrategy;
 import gnu.trove.TObjectIntHashMap;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -157,6 +160,25 @@ public class Alphabet<T> implements Serializable{
 	
 	public void setReadOnly(){
 		readOnly = true;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> Alphabet<T> read(String filename) throws IOException, ClassNotFoundException{
+		FileInputStream fis = new FileInputStream(filename);
+		ObjectInputStream ois = new ObjectInputStream(fis);
+		Alphabet<T> alphabet = (Alphabet<T>)ois.readObject();
+		ois.close();
+		fis.close();
+		
+		return alphabet;
+	}
+	
+	public void write(String filename) throws IOException{
+		FileOutputStream fos = new FileOutputStream(filename);
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(this);
+		oos.close();
+		fos.close();
 	}
 
 }
