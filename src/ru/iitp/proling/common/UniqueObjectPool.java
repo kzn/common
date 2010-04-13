@@ -44,5 +44,9 @@ public class UniqueObjectPool<T> {
 	public boolean contains(final T object){
 		return internalMap.containsKey(object);
 	}
+	
+	public int size(){
+		return internalMap.size();
+	}
 
 }
