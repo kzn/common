@@ -48,13 +48,18 @@ public class StringTableMapper implements StringMapper {
 		}
 	}
 	
-	public static StringTableMapper read(String filename) throws IOException, ClassNotFoundException{
-		FileInputStream fis = new FileInputStream(filename);
-		ObjectInputStream ois = new ObjectInputStream(fis);
-		StringTableMapper obj = (StringTableMapper)ois.readObject();
-		ois.close();
-		fis.close();
-		return obj;
+	public static StringTableMapper read(String filename) throws ClassNotFoundException{
+		try{
+			FileInputStream fis = new FileInputStream(filename);		
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			StringTableMapper obj = (StringTableMapper)ois.readObject();
+			ois.close();
+			fis.close();
+			return obj;
+		}catch(IOException e){
+			return new StringTableMapper();
+		}
+
 	}
 
 
