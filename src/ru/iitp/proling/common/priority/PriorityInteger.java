@@ -13,4 +13,9 @@ public class PriorityInteger<E> implements Comparable<PriorityInteger<E>> {
 	public int compareTo(PriorityInteger<E> o) {
 		return priority - o.priority; 
 	}
+	
+	public String toString(){
+		return String.format("{val:%s, pri:%d}", object, priority);
+	}
+
 }
