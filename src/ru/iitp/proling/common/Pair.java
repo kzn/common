@@ -1,46 +1,62 @@
 package ru.iitp.proling.common;
 
-import java.io.Serializable;
 
-public class Pair<T, U> implements Serializable{
-	private static final long serialVersionUID = 1L;
-	public final T first;
-	public final U second;
-	
-	public Pair(T first, U second){
+public class Pair<E1, E2> implements Comparable<Pair<E1, E2>> {
+	public final E1 first;
+	public final E2 second;
+
+
+	private Pair(E1 first, E2 second) {
 		this.first = first;
 		this.second = second;
 	}
 
+
+	public static <E1, E2> Pair<E1, E2> of(E1 first, E2 second) {
+		return new Pair<E1, E2>(first, second);
+	}
+
+
+	@Override
+	public int compareTo(Pair<E1, E2> o) {
+		int cmp = compare(first, o.first);
+		return cmp == 0 ? compare(second, o.second) : cmp;
+	}
+
+	// todo move this to a helper class.
+	private static int compare(Object o1, Object o2) {
+		return o1 == null ? o2 == null ? 0 : -1 : o2 == null ? +1 : ((Comparable) o1).compareTo(o2);
+	}
+
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((first == null) ? 0 : first.hashCode());
-		result = prime * result + ((second == null) ? 0 : second.hashCode());
-		return result;
+		return 31 * hashcode(first) + hashcode(second);
 	}
+
+
+	// todo move this to a helper class.
+	private static int hashcode(Object o) {
+		return o == null ? 0 : o.hashCode();
+	}
+
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pair other = (Pair) obj;
-		if (first == null) {
-			if (other.first != null)
-				return false;
-		} else if (!first.equals(other.first))
-			return false;
-		if (second == null) {
-			if (other.second != null)
-				return false;
-		} else if (!second.equals(other.second))
-			return false;
-		return true;
+		if (!(obj instanceof Pair)) return false;
+		if (this == obj) return true;
+		return equal(first, ((Pair) obj).first) && equal(second, ((Pair) obj).second);
 	}
 
+
+	// todo move this to a helper class.
+	private boolean equal(Object o1, Object o2) {
+		return o1 == null ? o2 == null : (o1 == o2 || o1.equals(o2));
+	}
+
+
+	@Override
+	public String toString() {
+		return "(" + first + ", " + second + ')';
+	}
 }
