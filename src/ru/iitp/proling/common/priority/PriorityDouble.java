@@ -13,5 +13,9 @@ public class PriorityDouble<E> implements Comparable<PriorityDouble<E>> {
 	public int compareTo(PriorityDouble<E> o) {
 		return Double.compare(priority, o.priority);
 	}
+	
+	public String toString(){
+		return String.format("{val:%s, pri:%f}", object, priority);
+	}
 
 }
