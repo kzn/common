@@ -69,4 +69,10 @@ public class GenericMapList<K,V> implements MapList<K, V> {
 		return new HashMap<K, List<V>>();
 	}
 
+	@Override
+	public void putAll(K key, List<V> values) {
+		for(V value : values)
+			put(key, value);
+	}
+
 }
