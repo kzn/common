@@ -74,5 +74,4 @@ public class GenericMapList<K,V> implements MapList<K, V> {
 		for(V value : values)
 			put(key, value);
 	}
-
 }
