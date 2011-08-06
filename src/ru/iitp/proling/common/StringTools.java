@@ -52,7 +52,8 @@ public class StringTools {
 
 			}
 		}
-		parts.add(s.substring(last, s.length()));
+		if(last != s.length())
+			parts.add(s.substring(last, s.length()));
 		return parts;
 	}
 	
