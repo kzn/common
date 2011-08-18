@@ -149,6 +149,17 @@ public final class MurmurHash {
 		final byte[] bytes = text.getBytes(); 
 		return hash32( bytes, bytes.length);
 	}
+	
+	public static int hash32(final String text, int seed) {
+		final byte[] bytes = text.getBytes();
+		return hash32(bytes, bytes.length, seed);
+	}
+	
+	public static long hash64(final String text, int seed) {
+		final byte[] bytes = text.getBytes();
+		return hash64(bytes, bytes.length, seed);
+	}
+
 
 
 	/** Generates 32 bit hash from a substring.
