@@ -17,5 +17,10 @@ public class PriorityInteger<E> implements Comparable<PriorityInteger<E>> {
 	public String toString(){
 		return String.format("{val:%s, pri:%d}", object, priority);
 	}
+	
+	public E object() {
+		return object;
+	}
+
 
 }
