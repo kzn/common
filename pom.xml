@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ru.iitp.cl</groupId>
+  <artifactId>common</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Logger</name>
+  <description>Common utils for LCL projects</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>ru.iitp.cl</groupId>
+  		<artifactId>logger</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+	<dependency>
+  		<groupId>gnu.trove</groupId>
+  		<artifactId>trove</artifactId>
+  		<version>2.1.0</version>
+	    </dependency>
+	    
+	    <dependency>
+  		<groupId>com.google.guava</groupId>
+  		<artifactId>guava</artifactId>
+  		<version>12.0</version>
+	    </dependency>
+
+	    
+
+  </dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<extensions>
+			<!-- Enabling the use of FTP -->
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh-external</artifactId>
+			</extension>
+		</extensions>
+	</build>
+  
+  
+  
+   <distributionManagement>
+    <repository>
+      <id>iitp.cl.repo</id>
+      <name>IITP CL Lab repository</name>
+      <url>scpexe://cl.iitp.ru/maven</url>
+    </repository>
+  </distributionManagement>
+</project>
