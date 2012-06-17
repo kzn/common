@@ -1,7 +1,7 @@
 package ru.iitp.proling.common;
 
-import gnu.trove.TObjectHashingStrategy;
-import gnu.trove.TObjectIntHashMap;
+import gnu.trove.strategy.HashingStrategy;
+import gnu.trove.map.hash.TObjectIntHashMap;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,15 +37,6 @@ public class Alphabet<T> implements Serializable{
 	 */
 	public Alphabet(){
 		map = new TObjectIntHashMap<T>();
-		entries = new ArrayList<T>();
-	}
-	
-	/**
-	 * Create empty Alphabet this custom object hash strategy
-	 * @param hashingStrategy
-	 */
-	public Alphabet(TObjectHashingStrategy<T> hashingStrategy){
-		map = new TObjectIntHashMap<T>(hashingStrategy);
 		entries = new ArrayList<T>();
 	}
 	

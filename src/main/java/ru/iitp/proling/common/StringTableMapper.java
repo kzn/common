@@ -1,13 +1,13 @@
 package ru.iitp.proling.common;
 
+import gnu.trove.map.hash.TObjectIntHashMap;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import gnu.trove.TObjectHash;
-import gnu.trove.TObjectIntHashMap;
 
 public class StringTableMapper implements StringMapper {
 	TObjectIntHashMap<String> table;
