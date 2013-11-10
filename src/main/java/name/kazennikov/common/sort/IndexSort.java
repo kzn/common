@@ -1,4 +1,4 @@
-package name.kazennikov.common;
+package name.kazennikov.common.sort;
 
 
 public class IndexSort {
