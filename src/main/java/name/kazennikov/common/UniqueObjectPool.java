@@ -5,19 +5,21 @@ import java.util.HashMap;
 /**
  * Unique hash set class. Used for storing and retrieving elements
  * from this set.
- * @author ant
+ * 
+ * @author Anton Kazennikov
  *
- * @param <T>
+ * @param <T> stored object type
  */
 public class UniqueObjectPool<T> {
 	HashMap<T,T> internalMap = new HashMap<T, T>();
 	
 	/**
 	 * Gets (and adds if absent) object from hash set
+	 * 
 	 * @param object query object
 	 * @return unique object 
 	 */
-	public T addget(final T object){
+	public T addOrGet(final T object) {
 		if(internalMap.containsKey(object))
 			return internalMap.get(object);
 		
@@ -27,12 +29,14 @@ public class UniqueObjectPool<T> {
 	
 	/**
 	 * Add object to hash set 
+	 * 
 	 * @param object
 	 * @return true on successful adding, false if object already exists
 	 */
-	public boolean add(final T object){
+	public boolean add(final T object) {
 		if(internalMap.containsKey(object))
 			return false;
+		
 		internalMap.put(object, object);
 		return true;
 	}
@@ -41,11 +45,11 @@ public class UniqueObjectPool<T> {
 	 * Check if hash set contains object
 	 * @param object 
 	 */
-	public boolean contains(final T object){
+	public boolean contains(final T object) {
 		return internalMap.containsKey(object);
 	}
 	
-	public int size(){
+	public int size() {
 		return internalMap.size();
 	}
 
