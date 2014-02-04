@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.common.base.Predicate;
+
 /**
  * Splits source iterator data into chunks based on separator predicate. 
  * The separator isn't added to the result data lists
@@ -11,16 +13,22 @@ import java.util.List;
  *
  * @param <E>
  */
-public abstract class SplittingIterator<E> implements Iterator<List<E>> {
+public class SplittingIterator<E> implements Iterator<List<E>> {
 	Iterator<E> iter;
 	
 	List<E> data;
+	Predicate<E> pred;
 	
-	public SplittingIterator(Iterator<E> iter) {
+	/**
+	 * Construct a splitting iterator
+	 * @param iter base iterator
+	 * @param pred predicate to check if an instance is a separator
+	 */
+	public SplittingIterator(Iterator<E> iter, Predicate<E> pred) {
 		this.iter = iter;
+		this.pred = pred;
 	}
 	
-	public abstract boolean isSeparator(E instance);
 
 	@Override
 	public boolean hasNext() {
@@ -28,7 +36,7 @@ public abstract class SplittingIterator<E> implements Iterator<List<E>> {
 		
 		while(!iter.hasNext()) {
 			E instance = iter.next();
-			if(isSeparator(instance))
+			if(pred.apply(instance))
 				break;
 			
 			data.add(instance);			
@@ -52,8 +60,8 @@ public abstract class SplittingIterator<E> implements Iterator<List<E>> {
 	public static abstract class AddFirst<E> extends SplittingIterator<E> {
 		E startInstance;
 
-		public AddFirst(Iterator<E> iter) {
-			super(iter);
+		public AddFirst(Iterator<E> iter, Predicate<E> pred) {
+			super(iter, pred);
 		}
 
 		@Override
@@ -65,7 +73,7 @@ public abstract class SplittingIterator<E> implements Iterator<List<E>> {
 			
 			while(!iter.hasNext()) {
 				E instance = iter.next();
-				if(isSeparator(instance)) {
+				if(pred.apply(instance)) {
 					startInstance = instance;
 					break;
 				}
