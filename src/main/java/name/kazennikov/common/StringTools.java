@@ -1,5 +1,8 @@
 package name.kazennikov.common;
 
+import gnu.trove.list.TIntList;
+import gnu.trove.list.array.TIntArrayList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +58,16 @@ public class StringTools {
 		if(last != s.length())
 			parts.add(s.substring(last, s.length()));
 		return parts;
+	}
+	
+	public static TIntList toIntList(CharSequence s) {
+		TIntList l = new TIntArrayList();
+		
+		for(int i = 0; i < s.length(); i++) {
+			l.add(s.charAt(i));
+		}
+		
+		return l;
 	}
 	
 
