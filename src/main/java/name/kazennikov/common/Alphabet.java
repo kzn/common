@@ -31,13 +31,25 @@ public class Alphabet<T> implements Serializable{
 	TObjectIntHashMap<T> map;
 	ArrayList<T> entries;
 	boolean readOnly = false;
+	private final int startIndex;
+	private final int missingIndex;
 	
 	/**
 	 * Create default alphabet
 	 */
-	public Alphabet(){
+	public Alphabet(int startIndex, int missingIndex){
 		map = new TObjectIntHashMap<T>();
 		entries = new ArrayList<T>();
+		this.startIndex = startIndex;
+		this.missingIndex = missingIndex;
+	}
+	
+	public Alphabet(int startIndex) {
+		this(startIndex, startIndex - 1);
+	}
+	
+	public Alphabet() {
+		this(0);
 	}
 	
 	/**
@@ -46,7 +58,7 @@ public class Alphabet<T> implements Serializable{
 	 * @return object at index in the alphabet
 	 */
 	public T get(int i){
-		return entries.get(i);
+		return entries.get(i - startIndex);
 	}
 	
 	/**
@@ -65,13 +77,13 @@ public class Alphabet<T> implements Serializable{
 			return retIndex;
 		
 		if(add){
-			retIndex = entries.size();
+			retIndex = entries.size() + startIndex;
 			map.put(object, retIndex);
 			entries.add(object);
 			return retIndex;
 		}
 		
-		return -1;
+		return missingIndex;
 	}
 	
 	/**
@@ -142,7 +154,7 @@ public class Alphabet<T> implements Serializable{
 	}
 	
 	public T entry(int index){
-		return entries.get(index);
+		return entries.get(index - startIndex);
 	}
 	
 	public int id(final T object){
