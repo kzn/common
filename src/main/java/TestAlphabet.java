@@ -6,7 +6,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-import ru.iitp.proling.common.Alphabet;
+import name.kazennikov.common.Alphabet;
+
+
 
 
 public class TestAlphabet {
