@@ -1,4 +1,4 @@
-package name.kazennikov.common;
+package name.kazennikov.common.trove;
 
 import java.util.Collection;
 import java.util.Deque;

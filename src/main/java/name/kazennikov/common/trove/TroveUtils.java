@@ -1,4 +1,4 @@
-package name.kazennikov.common;
+package name.kazennikov.common.trove;
 
 import gnu.trove.list.TByteList;
 import gnu.trove.list.TCharList;
