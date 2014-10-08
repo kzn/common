@@ -1,3 +1,9 @@
 target
 bin
 /build/
+.classpath
+.groovy
+.project
+.settings
+.idea
+*.iml
