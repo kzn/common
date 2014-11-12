@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -29,6 +30,28 @@ public class TopCount<E> {
 	
 	public void add(E o, int count) {
 		counts.adjustOrPutValue(o, count, count);
+	}
+	
+	public void add(E o) {
+		add(o, 1);
+	}
+	
+	public void addAll(Collection<? extends E> c) {
+		for(E o : c) {
+			add(o);
+		}
+	}
+	
+	public void mergeWith(final TopCount<? extends E> srcCounts) {
+		srcCounts.counts.forEachEntry(new TObjectIntProcedure<E>() {
+
+			@Override
+			public boolean execute(E a, int b) {
+				counts.adjustOrPutValue(a, b, b);
+				return true;
+			}
+		});
+		
 	}
 	
 	public List<Pair<E>> build() {
