@@ -69,6 +69,33 @@ public class StringTools {
 		
 		return l;
 	}
+
+	/**
+	 * Replace all occurences of string from to string to in s
+	 * @param s base string
+	 * @param from replace from string
+	 * @param to replace to string
+	 * @return string with made replacements
+	 */
+	public static String replace(String s, String from, String to) {
+		int index = 0;
+		StringBuilder out = new StringBuilder();
+		
+		while(index < s.length()) {
+			int next = s.indexOf(from, index);
+			if(next == -1) {
+				out.append(s, index, s.length());
+				break;
+			} 
+			
+			out.append(s, index, next);
+			out.append(to);
+			index = next + from.length();
+		}
+
+		return out.toString();
+	}
+
 	
 
 
