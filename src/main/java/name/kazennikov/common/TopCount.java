@@ -54,14 +54,15 @@ public class TopCount<E> {
 		
 	}
 	
-	public List<Pair<E>> build() {
+	public List<Pair<E>> build(final int minCount, final int maxCount) {
 		final List<Pair<E>> pairs = new ArrayList<Pair<E>>();
 		
 		counts.forEachEntry(new TObjectIntProcedure<E>() {
 
 			@Override
 			public boolean execute(E a, int b) {
-				pairs.add(new Pair<E>(a, b));
+				if(b >= minCount && b < maxCount)
+					pairs.add(new Pair<E>(a, b));
 				return true;
 			}
 		});
@@ -78,12 +79,16 @@ public class TopCount<E> {
 	}
 	
 	
-	public void write(File f) throws IOException {
+	public void write(File f, int minCount, int maxCount) throws IOException {
 		try(PrintWriter pw = new PrintWriter(f, "UTF-8")) {
-			for(Pair<E> pair : build()) {
+			for(Pair<E> pair : build(minCount, Integer.MAX_VALUE)) {
 				pw.printf("%s\t%d%n", pair.data, pair.count);
 			}
 		}
+	}
+	
+	public void write(File f) throws IOException {
+		write(f, 0, Integer.MAX_VALUE);
 	}
 	
 
