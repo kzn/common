@@ -130,8 +130,22 @@ public class BinarySearch {
     	return binarySearch(a, 0, a.length, c);
     }
     
-    public static int binarySearch(int from, int to, IntComparator c) {
-    	return Sorting.binarySearchFromTo(from, to, c);
+    public static int binarySearch(int from, int to, FixedIntComparator c) {
+        int low = from;
+        int high = to - 1;
+
+        while (low <= high) {
+            int mid = (low + high) >>> 1;            
+
+            if (c.compare(mid) < 0)
+                low = mid + 1;
+            else if (c.compare(mid) > 0)
+                high = mid - 1;
+            else
+                return mid; // key found
+        }
+        return -(low + 1);  // key not found.
+
     }
     
     /**
