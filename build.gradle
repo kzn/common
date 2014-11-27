@@ -21,5 +21,6 @@ dependencies {
         compile project(':modules:logger')
     }
     compile 'net.sf.trove4j:trove4j:3.0.3'
+	compile 'colt:colt:1.2.0'
     compile 'com.google.guava:guava:12.0'
 }
