@@ -1,7 +1,8 @@
 package name.kazennikov.common.sort;
 
-public interface SortAdapter {
+import cern.colt.Swapper;
+import cern.colt.function.IntComparator;
+
+public interface SortAdapter extends IntComparator, Swapper {
 	public int size();
-	public int compare(int index1, int index2);
-	public void swap(int index1, int index2);
 }
