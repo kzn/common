@@ -10,7 +10,7 @@ import gnu.trove.strategy.HashingStrategy;
  * @author kazennikov
  *
  */
-public interface IntHashingStrategy {
+public interface TIntHashingStrategy {
 	public boolean equals(int i1, int i2);
 	public int computeHashCode(int i);
 }
