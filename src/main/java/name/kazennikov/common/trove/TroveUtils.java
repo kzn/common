@@ -18,6 +18,10 @@ import name.kazennikov.common.count.FloatCount;
 import name.kazennikov.common.count.IntCount;
 import name.kazennikov.common.count.LongCount;
 
+import java.io.File;
+import java.io.IOError;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -198,13 +202,30 @@ public class TroveUtils {
         return l;
     }
 
+    public static <E> void writeCounts(File dest, TObjectIntHashMap<E> counts, int minCount, int maxCount) throws IOException {
+        List<IntCount<E>> l = getCounts(counts, minCount, maxCount);
+        try(PrintWriter pw = new PrintWriter(dest)) {
+            for(IntCount<E> c : l) {
+                pw.printf("%s\t%d%n", c.getObject(), c.getCount());
+            }
+        }
+    }
 
+    public static <E> void writeCounts(File dest, TObjectLongHashMap<E> counts, long minCount, long maxCount) throws IOException {
+        List<LongCount<E>> l = getCounts(counts, minCount, maxCount);
+        try(PrintWriter pw = new PrintWriter(dest)) {
+            for(LongCount<E> c : l) {
+                pw.printf("%s\t%d%n", c.getObject(), c.getCount());
+            }
+        }
+    }
 
-
-
-
-
-
-
-
+    public static <E> void writeCounts(File dest, TObjectFloatHashMap<E> counts, float minCount, float maxCount) throws IOException {
+        List<FloatCount<E>> l = getCounts(counts, minCount, maxCount);
+        try(PrintWriter pw = new PrintWriter(dest)) {
+            for(FloatCount<E> c : l) {
+                pw.printf("%s\t%f%n", c.getObject(), c.getCount());
+            }
+        }
+    }
 }
