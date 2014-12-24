@@ -18,10 +18,8 @@ import name.kazennikov.common.count.FloatCount;
 import name.kazennikov.common.count.IntCount;
 import name.kazennikov.common.count.LongCount;
 
-import java.io.File;
-import java.io.IOError;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -226,6 +224,24 @@ public class TroveUtils {
             for(FloatCount<E> c : l) {
                 pw.printf("%s\t%f%n", c.getObject(), c.getCount());
             }
+        }
+    }
+
+    public static TObjectIntHashMap<String> readCounts(File src) throws IOException {
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(src), Charset.forName("UTF-8")))) {
+            TObjectIntHashMap<String> counts = new TObjectIntHashMap<>();
+            while(true) {
+                String s = br.readLine();
+
+                if(s == null)
+                    break;
+
+                String[] parts = s.split("\t");
+                int count = Integer.parseInt(parts[1]);
+                counts.adjustOrPutValue(parts[0], count, count);
+            }
+
+            return counts;
         }
     }
 }
