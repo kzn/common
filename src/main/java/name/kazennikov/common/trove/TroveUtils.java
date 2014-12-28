@@ -14,6 +14,7 @@ import gnu.trove.map.hash.TObjectLongHashMap;
 import gnu.trove.procedure.TObjectFloatProcedure;
 import gnu.trove.procedure.TObjectIntProcedure;
 import gnu.trove.procedure.TObjectLongProcedure;
+import name.kazennikov.alphabet.StringParser;
 import name.kazennikov.common.count.FloatCount;
 import name.kazennikov.common.count.IntCount;
 import name.kazennikov.common.count.LongCount;
@@ -227,7 +228,26 @@ public class TroveUtils {
         }
     }
 
-    public static TObjectIntHashMap<String> readCounts(File src) throws IOException {
+    public static <E> void writeCounts(File dest, TObjectIntHashMap<E> counts, StringParser<E> parser, int minCount, int maxCount) throws IOException {
+        List<IntCount<E>> l = getCounts(counts, minCount, maxCount);
+
+        try(PrintWriter pw = new PrintWriter(dest)) {
+            for(IntCount<E> c : l) {
+                pw.printf("%s\t%d%n", parser.serialize(c.getObject()), c.getCount());
+            }
+        }
+    }
+
+    public static <E> void writeCounts(File dest, TObjectFloatHashMap<E> counts, StringParser<E> parser, float minCount, float maxCount) throws IOException {
+        List<FloatCount<E>> l = getCounts(counts, minCount, maxCount);
+        try(PrintWriter pw = new PrintWriter(dest)) {
+            for(FloatCount<E> c : l) {
+                pw.printf("%s\t%f%n", parser.serialize(c.getObject()), c.getCount());
+            }
+        }
+    }
+
+    public static TObjectIntHashMap<String> readCounts(File src, final int minLimit, final int maxLimit) throws IOException {
         try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(src), Charset.forName("UTF-8")))) {
             TObjectIntHashMap<String> counts = new TObjectIntHashMap<>();
             while(true) {
@@ -238,7 +258,63 @@ public class TroveUtils {
 
                 String[] parts = s.split("\t");
                 int count = Integer.parseInt(parts[1]);
-                counts.adjustOrPutValue(parts[0], count, count);
+
+                if(count >= minLimit && count < maxLimit)
+                    counts.adjustOrPutValue(parts[0], count, count);
+            }
+
+            return counts;
+        }
+    }
+
+    public static TObjectIntHashMap<String> readCounts(File src) throws IOException {
+        return readCounts(src, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    public static <E> TObjectIntHashMap<E> readCounts(File src, final StringParser<E> parser, final int minLimit, final int maxLimit) throws IOException {
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(src), Charset.forName("UTF-8")))) {
+            TObjectIntHashMap<E> counts = new TObjectIntHashMap<>();
+            while(true) {
+                String s = br.readLine();
+
+                if(s == null)
+                    break;
+
+                int dataSplit = s.lastIndexOf('\t');
+
+
+
+                int count = Integer.parseInt(s.substring(dataSplit + 1));
+
+                if(count >= minLimit && count < maxLimit) {
+                    E object = parser.parse(s.substring(0, dataSplit));
+                    counts.adjustOrPutValue(object, count, count);
+                }
+            }
+
+            return counts;
+        }
+    }
+
+    public static <E> TObjectFloatHashMap<E> readCounts(File src, final StringParser<E> parser, final float minLimit, final float maxLimit) throws IOException {
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(src), Charset.forName("UTF-8")))) {
+            TObjectFloatHashMap<E> counts = new TObjectFloatHashMap<>();
+            while(true) {
+                String s = br.readLine();
+
+                if(s == null)
+                    break;
+
+                int dataSplit = s.lastIndexOf('\t');
+
+
+
+                float count = Float.parseFloat(s.substring(dataSplit + 1));
+
+                if(count >= minLimit && count < maxLimit) {
+                    E object = parser.parse(s.substring(0, dataSplit));
+                    counts.adjustOrPutValue(object, count, count);
+                }
             }
 
             return counts;
