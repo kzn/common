@@ -5,6 +5,7 @@ if(project.hasProperty('standalone')) {
     group = 'name.kazennikov'
     description = "common"
     version = '0.0.1-SNAPSHOT'
+	distDir = 'dist'
 
 }
 
@@ -23,4 +24,24 @@ dependencies {
     compile 'net.sf.trove4j:trove4j:3.0.3'
 	compile 'colt:colt:1.2.0'
     compile 'com.google.guava:guava:12.0'
+    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
 }
+
+task dist(type: Copy, dependsOn : [jar]) {
+	into "${distDir}"
+
+	into('libs') {
+		from configurations.runtime
+		from "${buildDir}/libs"
+	}
+	
+/*	into('conf') {
+		from "${rootDir}/conf"
+	}*/
+	
+	from 'rss_fetcher.sh'
+	from 'rss_fetcher.minimal.sh'
+
+
+}
+
