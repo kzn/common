@@ -18,6 +18,7 @@ import gnu.trove.procedure.TObjectLongProcedure;
 import name.kazennikov.alphabet.StringParser;
 import name.kazennikov.common.count.FloatCount;
 import name.kazennikov.common.count.IntCount;
+import name.kazennikov.common.count.IntCounts;
 import name.kazennikov.common.count.LongCount;
 
 import java.io.*;
@@ -202,11 +203,16 @@ public class TroveUtils {
         return l;
     }
 
+
     public static <E> void writeCounts(File dest, TObjectIntHashMap<E> counts, int minCount, int maxCount) throws IOException {
-        List<IntCount<E>> l = getCounts(counts, minCount, maxCount);
-        try(PrintWriter pw = new PrintWriter(dest)) {
-            for(IntCount<E> c : l) {
-                pw.printf("%s\t%d%n", c.getObject(), c.getCount());
+        IntCounts<E> l = new IntCounts<E>(counts, minCount, maxCount);
+        l.inplaceSort(l.DESC);
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(dest))) {
+            for(int i = 0; i < l.size(); i++) {
+                bw.write(l.getObject(i).toString());
+                bw.write("\t");
+                bw.write(Integer.toString(l.getCount(i)));
+                bw.newLine();
             }
         }
     }
@@ -230,11 +236,14 @@ public class TroveUtils {
     }
 
     public static <E> void writeCounts(File dest, TObjectIntHashMap<E> counts, StringParser<E> parser, int minCount, int maxCount) throws IOException {
-        List<IntCount<E>> l = getCounts(counts, minCount, maxCount);
-
-        try(PrintWriter pw = new PrintWriter(dest)) {
-            for(IntCount<E> c : l) {
-                pw.printf("%s\t%d%n", parser.serialize(c.getObject()), c.getCount());
+        IntCounts<E> l = new IntCounts<E>(counts, minCount, maxCount);
+        l.inplaceSort(l.DESC);
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(dest))) {
+            for(int i = 0; i < l.size(); i++) {
+                bw.write(parser.serialize(l.getObject(i)));
+                bw.write("\t");
+                bw.write(Integer.toString(l.getCount(i)));
+                bw.newLine();
             }
         }
     }

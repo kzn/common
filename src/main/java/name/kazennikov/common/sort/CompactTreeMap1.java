@@ -110,9 +110,9 @@ public class CompactTreeMap1<K,V> implements NavigableMap<K,V>, Cloneable, java.
 	public static final int LEFT_OFFSET = 0;
 	public static final int RIGHT_OFFSET = 1;
 	public static final int PARENT_OFFSET = 2;
-	//public static final int COLOR_OFFSET = 3;
+	public static final int COLOR_OFFSET = 3;
 	
-	public static final int REC_SIZE = 3;
+	public static final int REC_SIZE = 4;
     
 	Object[] _key;
     Object[] _value;
@@ -121,7 +121,7 @@ public class CompactTreeMap1<K,V> implements NavigableMap<K,V>, Cloneable, java.
     //int[] _left = null;
     //int[] _right = null;
     //int[] _parent;    
-    int[] _color;
+    //int[] _color;
 	
     
     int _pos; // last entry index
@@ -548,10 +548,10 @@ public class CompactTreeMap1<K,V> implements NavigableMap<K,V>, Cloneable, java.
     		
     		_key = new Object[initSize];
     		_value = new Object[initSize];
-    		_color = new int[initSize];
+    		//_color = new int[initSize];
     	} else {
     		int[] _tree = new int[this._tree.length << 1];
-    		int[] _color = new int[this._color.length << 1];
+    		//int[] _color = new int[this._color.length << 1];
     		Object[] _key = new Object[this._key.length << 1];
     		Object[] _value = new Object[this._value.length << 1];
     		
@@ -560,12 +560,12 @@ public class CompactTreeMap1<K,V> implements NavigableMap<K,V>, Cloneable, java.
     		System.arraycopy(this._tree, 0, _tree, 0, this._tree.length);
     		System.arraycopy(this._key, 0, _key, 0, this._key.length);
     		System.arraycopy(this._value, 0, _value, 0, this._value.length);
-    		System.arraycopy(this._color, 0, _color, 0, this._color.length);
+    		//System.arraycopy(this._color, 0, _color, 0, this._color.length);
     		
     		this._key = _key;
     		this._value = _value;
     		this._tree  = _tree;
-    		this._color = _color;
+    		//this._color = _color;
     		
     	}
     	
@@ -1362,13 +1362,13 @@ public class CompactTreeMap1<K,V> implements NavigableMap<K,V>, Cloneable, java.
      }
      
      int color(int index) {
-    	 //return _tree[index + COLOR_OFFSET];
-    	 return _color[index / REC_SIZE];
+    	 return _tree[index + COLOR_OFFSET];
+    	 //return _color[index / REC_SIZE];
      }
      
      void color(int index, int newColor) {
-    	 //_tree[index + COLOR_OFFSET] = newColor;
-    	 _color[index/REC_SIZE] = newColor;
+    	 _tree[index + COLOR_OFFSET] = newColor;
+    	 //_color[index/REC_SIZE] = newColor;
      }
      
      
@@ -2142,6 +2142,7 @@ public class CompactTreeMap1<K,V> implements NavigableMap<K,V>, Cloneable, java.
             right(p, left(r));
             if (left(r) != NIL)
                 parent(left(r), p); // r.left.parent = p;
+            
             parent(r,  parent(p));
             if (parent(p) == NIL)
                 root = r;
@@ -2149,6 +2150,7 @@ public class CompactTreeMap1<K,V> implements NavigableMap<K,V>, Cloneable, java.
                 left(parent(p), r);
             else
                 right(parent(p), r);
+            
             left(r, p);
             parent(p, r);
         }
