@@ -11,6 +11,7 @@ import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.map.hash.TObjectLongHashMap;
+import gnu.trove.procedure.TIntProcedure;
 import gnu.trove.procedure.TObjectFloatProcedure;
 import gnu.trove.procedure.TObjectIntProcedure;
 import gnu.trove.procedure.TObjectLongProcedure;
@@ -247,9 +248,8 @@ public class TroveUtils {
         }
     }
 
-    public static TObjectIntHashMap<String> readCounts(File src, final int minLimit, final int maxLimit) throws IOException {
+    public static TObjectIntHashMap<String> readCounts(File src, TObjectIntHashMap<String> counts, final int minLimit, final int maxLimit) throws IOException {
         try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(src), Charset.forName("UTF-8")))) {
-            TObjectIntHashMap<String> counts = new TObjectIntHashMap<>();
             while(true) {
                 String s = br.readLine();
 
@@ -268,7 +268,11 @@ public class TroveUtils {
     }
 
     public static TObjectIntHashMap<String> readCounts(File src) throws IOException {
-        return readCounts(src, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return readCounts(src, new TObjectIntHashMap<String>(), Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    public static TObjectIntHashMap<String> readCounts(File src, TObjectIntHashMap<String> dest) throws IOException {
+        return readCounts(src, dest, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     public static <E> TObjectIntHashMap<E> readCounts(File src, final StringParser<E> parser, final int minLimit, final int maxLimit) throws IOException {
@@ -319,5 +323,47 @@ public class TroveUtils {
 
             return counts;
         }
+    }
+
+    protected static class SumIntProcedure implements TIntProcedure {
+        int sum = 0;
+
+        @Override
+        public boolean execute(int value) {
+            sum += value;
+            return true;
+        }
+
+        public int sum() {
+            return sum;
+        }
+    }
+
+    public static int sum(TObjectIntHashMap<?> counts) {
+        SumIntProcedure proc = new SumIntProcedure();
+        counts.forEachValue(proc);
+        return proc.sum();
+    }
+
+    protected static class LongSumIntProcedure implements TIntProcedure {
+        long sum = 0;
+
+        @Override
+        public boolean execute(int value) {
+            sum += value;
+            return true;
+        }
+
+        public long sum() {
+            return sum;
+        }
+    }
+
+
+
+    public static long longSum(TObjectIntHashMap<?> counts) {
+        LongSumIntProcedure proc = new LongSumIntProcedure();
+        counts.forEachValue(proc);
+        return proc.sum();
     }
 }
