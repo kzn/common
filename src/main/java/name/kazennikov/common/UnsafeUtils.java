@@ -17,6 +17,16 @@ public class UnsafeUtils {
 			throw new RuntimeException(e);
 		}
 	}
+
+    public static long sizeOf(Object object) {
+        Unsafe unsafe = getUnsafe();
+        return unsafe.getAddress( normalize( unsafe.getInt(object, 4L) ) + 12L );
+    }
+
+    public static long normalize(int value) {
+        if(value >= 0) return value;
+        return (~0L >>> 32) & value;
+    }
 	
 	public static void main(String[] args) {
 		Unsafe unsafe = getUnsafe();
