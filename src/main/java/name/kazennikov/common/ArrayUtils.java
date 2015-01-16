@@ -1,12 +1,31 @@
 package name.kazennikov.common;
 
 public class ArrayUtils {
+
+    public static void swap(Object[] array, int i, int j) {
+        Object t = array[i];
+        array[i] = array[j];
+        array[j] = t;
+    }
 	
 	public static void swap(int[] array, int i, int j) {
 		int t = array[i];
 		array[i] = array[j];
 		array[j] = t;
 	}
+
+    public static void swap(long[] array, int i, int j) {
+        long t = array[i];
+        array[i] = array[j];
+        array[j] = t;
+    }
+
+
+    public static void swap(float[] array, int i, int j) {
+        float t = array[i];
+        array[i] = array[j];
+        array[j] = t;
+    }
 	
 	
 	public static void swap(double[] array, int i, int j) {

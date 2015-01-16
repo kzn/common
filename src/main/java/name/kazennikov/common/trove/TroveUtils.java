@@ -11,12 +11,14 @@ import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.map.hash.TObjectLongHashMap;
+import gnu.trove.procedure.TIntProcedure;
 import gnu.trove.procedure.TObjectFloatProcedure;
 import gnu.trove.procedure.TObjectIntProcedure;
 import gnu.trove.procedure.TObjectLongProcedure;
 import name.kazennikov.alphabet.StringParser;
 import name.kazennikov.common.count.FloatCount;
 import name.kazennikov.common.count.IntCount;
+import name.kazennikov.common.count.IntCounts;
 import name.kazennikov.common.count.LongCount;
 
 import java.io.*;
@@ -201,11 +203,16 @@ public class TroveUtils {
         return l;
     }
 
+
     public static <E> void writeCounts(File dest, TObjectIntHashMap<E> counts, int minCount, int maxCount) throws IOException {
-        List<IntCount<E>> l = getCounts(counts, minCount, maxCount);
-        try(PrintWriter pw = new PrintWriter(dest)) {
-            for(IntCount<E> c : l) {
-                pw.printf("%s\t%d%n", c.getObject(), c.getCount());
+        IntCounts<E> l = new IntCounts<E>(counts, minCount, maxCount);
+        l.inplaceSort(l.DESC);
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(dest))) {
+            for(int i = 0; i < l.size(); i++) {
+                bw.write(l.getObject(i).toString());
+                bw.write("\t");
+                bw.write(Integer.toString(l.getCount(i)));
+                bw.newLine();
             }
         }
     }
@@ -229,11 +236,14 @@ public class TroveUtils {
     }
 
     public static <E> void writeCounts(File dest, TObjectIntHashMap<E> counts, StringParser<E> parser, int minCount, int maxCount) throws IOException {
-        List<IntCount<E>> l = getCounts(counts, minCount, maxCount);
-
-        try(PrintWriter pw = new PrintWriter(dest)) {
-            for(IntCount<E> c : l) {
-                pw.printf("%s\t%d%n", parser.serialize(c.getObject()), c.getCount());
+        IntCounts<E> l = new IntCounts<E>(counts, minCount, maxCount);
+        l.inplaceSort(l.DESC);
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(dest))) {
+            for(int i = 0; i < l.size(); i++) {
+                bw.write(parser.serialize(l.getObject(i)));
+                bw.write("\t");
+                bw.write(Integer.toString(l.getCount(i)));
+                bw.newLine();
             }
         }
     }
@@ -247,9 +257,8 @@ public class TroveUtils {
         }
     }
 
-    public static TObjectIntHashMap<String> readCounts(File src, final int minLimit, final int maxLimit) throws IOException {
+    public static TObjectIntHashMap<String> readCounts(File src, TObjectIntHashMap<String> counts, final int minLimit, final int maxLimit) throws IOException {
         try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(src), Charset.forName("UTF-8")))) {
-            TObjectIntHashMap<String> counts = new TObjectIntHashMap<>();
             while(true) {
                 String s = br.readLine();
 
@@ -268,7 +277,11 @@ public class TroveUtils {
     }
 
     public static TObjectIntHashMap<String> readCounts(File src) throws IOException {
-        return readCounts(src, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return readCounts(src, new TObjectIntHashMap<String>(), Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    public static TObjectIntHashMap<String> readCounts(File src, TObjectIntHashMap<String> dest) throws IOException {
+        return readCounts(src, dest, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     public static <E> TObjectIntHashMap<E> readCounts(File src, final StringParser<E> parser, final int minLimit, final int maxLimit) throws IOException {
@@ -319,5 +332,47 @@ public class TroveUtils {
 
             return counts;
         }
+    }
+
+    protected static class SumIntProcedure implements TIntProcedure {
+        int sum = 0;
+
+        @Override
+        public boolean execute(int value) {
+            sum += value;
+            return true;
+        }
+
+        public int sum() {
+            return sum;
+        }
+    }
+
+    public static int sum(TObjectIntHashMap<?> counts) {
+        SumIntProcedure proc = new SumIntProcedure();
+        counts.forEachValue(proc);
+        return proc.sum();
+    }
+
+    protected static class LongSumIntProcedure implements TIntProcedure {
+        long sum = 0;
+
+        @Override
+        public boolean execute(int value) {
+            sum += value;
+            return true;
+        }
+
+        public long sum() {
+            return sum;
+        }
+    }
+
+
+
+    public static long longSum(TObjectIntHashMap<?> counts) {
+        LongSumIntProcedure proc = new LongSumIntProcedure();
+        counts.forEachValue(proc);
+        return proc.sum();
     }
 }
