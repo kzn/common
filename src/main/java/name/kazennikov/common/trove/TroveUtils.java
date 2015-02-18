@@ -67,26 +67,29 @@ public class TroveUtils {
         l.set(j, t);
     }
 
-    public static void expand(TIntArrayList dest, CharSequence s) {
-        dest.resetQuick();
+    public static void expand(TIntArrayList dest, CharSequence s, int start, int end) {
+        for(int i = start; i < end; i++) {
+            dest.add(s.charAt(i));
+        }
+    }
 
-        for(int i = 0; i < s.length(); i++) {
+    public static void expand(TIntArrayList dest, CharSequence s) {
+        expand(dest, s, 0, s.length());
+    }
+
+    public static void expand(TCharArrayList dest, CharSequence s, int start, int end) {
+        for(int i = start; i < end; i++) {
             dest.add(s.charAt(i));
         }
     }
 
     public static void expand(TCharArrayList dest, CharSequence s) {
-        dest.resetQuick();
-
-        for(int i = 0; i < s.length(); i++) {
-            dest.add(s.charAt(i));
-        }
+        expand(dest, s);
     }
 
 
 
     public static void expand(TIntArrayList dest, CharSequence from, CharSequence to) {
-        dest.resetQuick();
         int maxLength = Math.max(from.length(), to.length());
 
         for(int i = 0; i < maxLength; i++) {

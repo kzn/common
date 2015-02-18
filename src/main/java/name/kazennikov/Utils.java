@@ -36,4 +36,24 @@ public class Utils {
     public static <K, E> Map<K, List<E>> groupBy(Collection<? extends E> c, Function<E, K> keyFunction) {
         return groupBy(c, keyFunction, true);
     }
+
+    public static String reverse(CharSequence s) {
+        return new StringBuilder(s).reverse().toString();
+    }
+
+    public static int commonPrefix(String s1, String s2) {
+        int len = Math.min(s1.length(), s2.length());
+
+        for (int i = 0; i < len; i++) {
+            char ch1 = s1.charAt(i);
+            char ch2 = s2.charAt(i);
+
+            if (ch1 != ch2) {
+                return i;
+            }
+
+        }
+        return len;
+    }
+
 }
