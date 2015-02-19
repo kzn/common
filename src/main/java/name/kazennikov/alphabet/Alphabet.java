@@ -107,7 +107,7 @@ public class Alphabet<T> implements Serializable {
 		
 		int retIndex = map.get(object);
 		
-		if(retIndex != 0 || map.containsKey(object))
+		if(retIndex != missingIndex)
 			return retIndex;
 		
 		if(add) {
