@@ -1,5 +1,6 @@
 package name.kazennikov.alphabet;
 
+import gnu.trove.impl.Constants;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.procedure.TIntProcedure;
 import gnu.trove.procedure.TObjectIntProcedure;
@@ -42,7 +43,7 @@ public class Alphabet<T> implements Serializable {
 	 * Create default alphabet
 	 */
 	public Alphabet(int startIndex, int missingIndex) {
-		map = new TObjectIntHashMap<T>();
+		map = new TObjectIntHashMap<T>(Constants.DEFAULT_CAPACITY, Constants.DEFAULT_LOAD_FACTOR, missingIndex);
 		entries = new ArrayList<T>();
 		this.startIndex = startIndex;
 		this.missingIndex = missingIndex;
