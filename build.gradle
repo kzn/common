@@ -20,8 +20,8 @@ dependencies {
     } else {
         compile project(':modules:logger')
     }
-    compile 'net.sf.trove4j:trove4j:3.0.3'
+    compile "net.sf.trove4j:trove4j:$trove4jVersion"
 	compile 'colt:colt:1.2.0'
-    compile 'com.google.guava:guava:12.0'
+    compile "com.google.guava:guava:$guavaVersion"
     compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3' // port of mozilla chardet
 }
