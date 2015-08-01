@@ -18,6 +18,10 @@ public class IOUtils {
         return new BufferedReader(new InputStreamReader(new FileInputStream(f), cs));
     }
 
+    public static BufferedReader newReader(File f, String charset) throws IOException {
+        return new BufferedReader(new InputStreamReader(new FileInputStream(f), Charset.forName(charset)));
+    }
+
     public static ObjectInputStream newObjectInputStream(File f) throws IOException {
         return new ObjectInputStream(new FileInputStream(f));
     }
