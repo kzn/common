@@ -9,13 +9,13 @@ import java.util.List;
 /**
  * Sequence Stream. It is an extension of List that supports current position in the stream.
  * <p>
- * It could be implemented using List, but it has following distictions:
+ * It could be implemented using List, but it has following differences:
  * <ul>
- * <li> it is positional: it has current postion and operations to change positions
+ * <li> it is positional: it has current position and operations to change positions
  * <li> there is a user-specified null object (if not specified, ordinary null value is used)
  * <li> null object is returned on out-of-bounds operations
  * <li> implementation of relative operations: current(), next(), prev(), peek(). So one can query for elements relative
- * to current positon. It is handy for sequence oprations
+ * to current position. It is handy for sequence operations
  * <li> null checking is done by isNull() methods
  * </ul>
  * 
@@ -40,7 +40,7 @@ public class SequenceStream<E> {
 	}
 	
 	/**
-	 * Generic constuctor for sequence stream
+	 * Generic constructor for sequence stream
 	 * 
 	 * @param nullObject null object
 	 * @param elements elements of the sequence
