@@ -5,17 +5,7 @@ import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.procedure.TIntProcedure;
 import gnu.trove.procedure.TObjectIntProcedure;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,7 +117,7 @@ public class Alphabet<T> implements Serializable {
 	 * @return index of object
 	 */
 	public int get(final T object) {
-		return get(object, true);
+		return get(object, !readOnly);
 	}
 	
 	/**
