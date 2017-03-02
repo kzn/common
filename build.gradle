@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'idea'
 
 if(project.hasProperty('standalone')) {
     group = 'name.kazennikov'
@@ -15,13 +16,9 @@ repositories {
 }
 
 dependencies {
-    if(project.hasProperty('standalone')) {
-        compile 'name.kazennikov:logger:0.0.1-SNAPSHOT'
-    } else {
-        compile project(':modules:logger')
-    }
-    compile "net.sf.trove4j:trove4j:$trove4jVersion"
-	compile 'colt:colt:1.2.0'
-    compile "com.google.guava:guava:$guavaVersion"
+    compile project(':modules:logger')
+    compile "net.sf.trove4j:trove4j:3.0.3"
+    compile 'colt:colt:1.2.0'
+    compile "com.google.guava:guava:18.0"
     compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3' // port of mozilla chardet
 }

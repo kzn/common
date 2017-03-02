@@ -101,7 +101,7 @@ public class Alphabet<T> implements Serializable {
 		if(retIndex != missingIndex)
 			return retIndex;
 		
-		if(add) {
+		if(add && !readOnly) {
 			retIndex = entries.size() + startIndex;
 			map.put(object, retIndex);
 			entries.add(object);

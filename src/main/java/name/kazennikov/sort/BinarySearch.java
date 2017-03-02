@@ -130,7 +130,20 @@ public class BinarySearch {
     public static int binarySearch(int[] a, FixedIntComparator c) {
     	return binarySearch(a, 0, a.length, c);
     }
-    
+
+    /**
+     * Binary search.
+     * Accepts int comparator c(x) that compares element at x-th position with target element
+     * c(x) < 0 means that x-th element is less than target,
+     * c(x) = 0: x-th element equals to target
+     * c(x) > 0: x-th element greater than target
+     *
+     *
+     * @param from start range
+     * @param to end range
+     * @param c comparator c(index) - how elem at index compares with target
+     * @return
+     */
     public static int binarySearch(int from, int to, FixedIntComparator c) {
         int low = from;
         int high = to - 1;
